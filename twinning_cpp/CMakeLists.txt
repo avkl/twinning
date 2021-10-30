@@ -3,7 +3,7 @@ project(twinning_cpp)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fopenmp")
 
-include_directories(nanoflann/include)
+include_directories(nanoflann/include eigen)
 add_subdirectory(pybind11)
 pybind11_add_module(twinning_cpp src/twinning.cpp)
 
