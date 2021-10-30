@@ -1,50 +1,36 @@
 #include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
+#include <pybind11/numpy.h>
+#include <pybind11/stl.h>
 #include <nanoflann.hpp>
-#include <omp.h>
 #include <iostream>
-#include <vector>
-#include <Eigen/Dense>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>> kdTree;
-
-int add(int i, int j) 
+std::vector<std::size_t> twin_cpp(pybind11::array_t<double> data) 
 {
-    std::cout << "hello world!" << std::endl;
-    std::cout << omp_get_max_threads() << std::endl;
-    return i + j;
+    auto data_access = data.unchecked<2>();
+    std::cout << data_access(0, 3) << std::endl;
+
+    return {1, 2, 3};
 }
 
 namespace py = pybind11;
 
 PYBIND11_MODULE(twinning_cpp, m) {
     m.doc() = R"pbdoc(
-        Pybind11 example plugin
-        -----------------------
-
         .. currentmodule:: twinning_cpp
 
         .. autosummary::
            :toctree: _generate
 
-           add
-           subtract
+           twin_cpp
     )pbdoc";
 
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
-
-        Some other explanation about the add function.
+    m.def("twin_cpp", &twin_cpp, R"pbdoc(
+        Partition a dataset into statistically similar twin sets.
     )pbdoc");
 
-    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
-
-        Some other explanation about the subtract function.
-    )pbdoc");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
