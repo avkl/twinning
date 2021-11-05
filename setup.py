@@ -8,5 +8,6 @@ setup(name="twinning",
       description="An efficient algorithm for partitioning datasets into statistically similar sets",
       author="Akhil Vakayil",
       author_email="akhilv@gatech.edu",
+      packages=['twinning']
       install_requires=['numpy', f"twinning_cpp @ file://localhost/{twinning_cpp}#egg=twinning_cpp"]
      )
