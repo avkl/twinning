@@ -1,5 +1,7 @@
 .DS_Store
 __pycache__/
 *.egg-info/
+twinning/__pycache__/
 twinning_cpp/build/
+twinning_cpp/*.egg-info/
 

@@ -1,1 +1,1 @@
-from twinning_functions import twin, multiplet
+from .twinning import twin, multiplet
