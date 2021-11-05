@@ -1,5 +1,0 @@
-/Users/akhil/Documents/Py/packages/twinning/twinning_cpp/build/temp.macosx-10.9-x86_64-3.8/CMakeFiles/rebuild_cache.dir
-/Users/akhil/Documents/Py/packages/twinning/twinning_cpp/build/temp.macosx-10.9-x86_64-3.8/CMakeFiles/edit_cache.dir
-/Users/akhil/Documents/Py/packages/twinning/twinning_cpp/build/temp.macosx-10.9-x86_64-3.8/CMakeFiles/twinning_cpp.dir
-/Users/akhil/Documents/Py/packages/twinning/twinning_cpp/build/temp.macosx-10.9-x86_64-3.8/pybind11/CMakeFiles/rebuild_cache.dir
-/Users/akhil/Documents/Py/packages/twinning/twinning_cpp/build/temp.macosx-10.9-x86_64-3.8/pybind11/CMakeFiles/edit_cache.dir
