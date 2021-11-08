@@ -15,7 +15,7 @@ def multiplet(data, n):
 	i = 0
 	while True:
 		negate = np.ones(D_.shape[0], np.bool)
-		multiplet_i = np.array(twin_cpp(D_[:, 1:], n - i, np.random.randint(D_.shape[0]), 8), dtype='uint64')
+		multiplet_i = np.array(twin_cpp(np.copy(D_[:, 1:], order='C'), n - i, np.random.randint(D_.shape[0]), 8), dtype='uint64')
 		
 		fold = np.hstack((D_[multiplet_i, 0].reshape(len(multiplet_i), 1), np.repeat(i, len(multiplet_i)).reshape(len(multiplet_i), 1)))
 		folds = np.vstack((folds, fold))
