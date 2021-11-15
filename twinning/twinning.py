@@ -25,7 +25,6 @@ def multiplet(data, n):
 	row_index = np.array(range(N))
 	folds = np.empty((0, 2))
 	i = 0
-	start = time.time()
 	while True:
 		multiplet_i = np.array(twin_cpp(D, n - i, np.random.randint(D.shape[0]), 8), dtype='uint64')
 		fold = np.hstack((row_index[multiplet_i].reshape(len(multiplet_i), 1), np.repeat(i, len(multiplet_i)).reshape(len(multiplet_i), 1)))
