@@ -1,29 +1,45 @@
 from twinning_cpp import twin_cpp
 import numpy as np
+import time
 
-def twin(data):
-	return(np.array(twin_cpp(data, 5, np.random.randint(data.shape[0]), 8), dtype='uint64'))
+def data_format(data):
+	col_cleanup = []
+	for j in range(data.shape[1]):
+	    if np.max(data[:, j]) == np.min(data[:, j]):
+	        col_cleanup.append(j)
+
+	negate = np.ones(data.shape[1], bool)
+	negate[col_cleanup] = 0
+	data = data[:, negate]
+	data = (data - data.mean(axis=0)) / data.std(axis=0)
+	return np.copy(data, order='C')
+
+
+def twin(data, r):
+	D = data_format(data)
+	return(np.array(twin_cpp(D, r, np.random.randint(data.shape[0]), 8), dtype='uint64'))
 
 
 def multiplet(data, n):
-	N = data.shape[0];
-	d = data.shape[1];
-	data_ = np.hstack((np.array(range(N)).reshape(N, 1), data))
-
+	D = data_format(data)
+	N = D.shape[0];
+	d = D.shape[1];
+	row_index = np.array(range(N))
 	folds = np.empty((0, 2))
-	D_ = data_
 	i = 0
+	start = time.time()
 	while True:
-		negate = np.ones(D_.shape[0], np.bool)
-		multiplet_i = np.array(twin_cpp(np.copy(D_[:, 1:], order='C'), n - i, np.random.randint(D_.shape[0]), 8), dtype='uint64')
-		
-		fold = np.hstack((D_[multiplet_i, 0].reshape(len(multiplet_i), 1), np.repeat(i, len(multiplet_i)).reshape(len(multiplet_i), 1)))
+		multiplet_i = np.array(twin_cpp(D, n - i, np.random.randint(D.shape[0]), 8), dtype='uint64')
+		fold = np.hstack((row_index[multiplet_i].reshape(len(multiplet_i), 1), np.repeat(i, len(multiplet_i)).reshape(len(multiplet_i), 1)))
 		folds = np.vstack((folds, fold))
+		
+		negate = np.ones(D.shape[0], np.bool)
 		negate[multiplet_i] = 0
-		D_ = D_[negate, :]
+		D = D[negate, :]
+		row_index = row_index[negate]
 
-		if D_.shape[0] <= N / n:
-			fold = np.hstack((D_[:, 0].reshape(D_.shape[0], 1), np.repeat(i + 1, D_.shape[0]).reshape(D_.shape[0], 1)))
+		if D.shape[0] <= N / n:
+			fold = np.hstack((row_index.reshape(len(row_index), 1), np.repeat(i + 1, len(row_index)).reshape(len(row_index), 1)))
 			folds = np.vstack((folds, fold))
 			break
 
