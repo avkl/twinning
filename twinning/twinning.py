@@ -1,6 +1,5 @@
 from twinning_cpp import twin_cpp
 import numpy as np
-import time
 
 def data_format(data):
 	col_cleanup = []
@@ -23,7 +22,6 @@ def twin(data, r):
 def multiplet(data, n):
 	D = data_format(data)
 	N = D.shape[0];
-	d = D.shape[1];
 	row_index = np.array(range(N))
 	folds = np.empty((0, 2))
 	i = 0
