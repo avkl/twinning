@@ -1,4 +1,5 @@
 .DS_Store
+.idea/
 __pycache__/
 *.egg-info/
 twinning/__pycache__/
