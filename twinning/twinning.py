@@ -24,7 +24,8 @@ def multiplet(data, n, strategy=1):
 	if strategy == 1:
 		D = data_format(data)
 		N = D.shape[0]
-		fold_index = np.random.shuffle(np.arange(n))
+		fold_index = np.arange(n)
+		np.random.shuffle(fold_index)
 		row_index = np.arange(N)
 		folds = np.empty((0, 2))
 		i = 0
@@ -50,7 +51,8 @@ def multiplet(data, n, strategy=1):
 	if strategy == 3:
 		D = data_format(data)
 		N = D.shape[0]
-		fold_index = np.random.shuffle(np.arange(n))
+		fold_index = np.arange(n)
+		np.random.shuffle(fold_index)
 		sequence = np.array(multiplet_S3_cpp(D, n, np.random.randint(D.shape[0]), 8), dtype='uint64')
 		folds = np.hstack((sequence.reshape(len(sequence), 1), np.tile(fold_index, np.ceil(N / n).astype('uint64'))[0:N].reshape(N, 1)))
 		return folds[np.argsort(folds[:, 0]), 1].astype('uint64')
