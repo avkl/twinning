@@ -182,7 +182,14 @@ std::vector<std::size_t> twin_cpp(py::array_t<double> data, std::size_t r, std::
 }
 
 
-PYBIND11_MODULE(twinning_cpp, m) {
+std::vector<std::size_t> multiplet_S3_cpp(py::array_t<double> data, std::size_t n, std::size_t u1, std::size_t leaf_size) 
+{
+    Twinning twinning(data, n, u1, leaf_size);
+    return twinning.get_sequence();
+}
+
+
+PYBIND11_MODULE(twinning_cpp, m){
     m.doc() = R"pbdoc(
         .. currentmodule:: twinning_cpp
 
@@ -190,10 +197,15 @@ PYBIND11_MODULE(twinning_cpp, m) {
            :toctree: _generate
 
            twin_cpp
+           multiplet_S3_cpp
     )pbdoc";
 
     m.def("twin_cpp", &twin_cpp, R"pbdoc(
-        Partition a dataset into statistically similar twin sets.
+        Partition a dataset into statistically similar twin sets (C++ extension).
+    )pbdoc");
+
+    m.def("multiplet_S3_cpp", &multiplet_S3_cpp, R"pbdoc(
+        Generate multiplets using strategy 3 (C++ extension).
     )pbdoc");
 
 
