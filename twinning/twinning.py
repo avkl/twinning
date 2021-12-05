@@ -15,15 +15,35 @@ def data_format(data):
 	return np.copy(data, order='C')
 
 
-def twin(data, r):
-	D = data_format(data)
+def twin(data, r, format_data=True):
+	if type(data) != 'numpy.ndarray':
+		raise Exception("data is expected to be a 2 dimensional numpy ndarray")
+	elif len(data.shape) != 2:
+		raise Exception("data is expected to be a 2 dimensional numpy ndarray")
+
+	D = None
+	if format_data:
+		D = data_format(data)
+	else:
+		D = data
+
 	return np.array(twin_cpp(D, r, np.random.randint(data.shape[0]), 8), dtype='uint64')
 
 
-def multiplet(data, n, strategy=1):
-	if strategy == 1:
+def multiplet(data, n, strategy=1, format_data=True):
+	if type(data) != 'numpy.ndarray':
+		raise Exception("data is expected to be a 2 dimensional numpy ndarray")
+	elif len(data.shape) != 2:
+		raise Exception("data is expected to be a 2 dimensional numpy ndarray")
+
+	D = None
+	if format_data:
 		D = data_format(data)
-		N = D.shape[0]
+	else:
+		D = data
+
+	N = D.shape[0]
+	if strategy == 1:
 		row_index = np.arange(N)
 		folds = np.empty((0, 2))
 		i = 0
@@ -46,9 +66,10 @@ def multiplet(data, n, strategy=1):
 
 		return folds[np.argsort(folds[:, 0]), 1].astype('uint64')
 
+	if strategy == 2:
+		pass
+
 	if strategy == 3:
-		D = data_format(data)
-		N = D.shape[0]
 		sequence = np.array(multiplet_S3_cpp(D, n, np.random.randint(D.shape[0]), 8), dtype='uint64')
 		folds = np.hstack((sequence.reshape(len(sequence), 1), np.tile(np.arange(n), np.ceil(N / n).astype('uint64'))[0:N].reshape(N, 1)))
 		return folds[np.argsort(folds[:, 0]), 1].astype('uint64')
