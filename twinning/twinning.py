@@ -1,5 +1,6 @@
 from twinning_cpp import twin_cpp, multiplet_S3_cpp
 import numpy as np
+import math
 
 
 def data_format(data):
@@ -43,6 +44,7 @@ def multiplet(data, n, strategy=1, format_data=True):
 		D = data
 
 	N = D.shape[0]
+
 	if strategy == 1:
 		row_index = np.arange(N)
 		folds = np.empty((0, 2))
@@ -67,7 +69,27 @@ def multiplet(data, n, strategy=1, format_data=True):
 		return folds[np.argsort(folds[:, 0]), 1].astype('uint64')
 
 	if strategy == 2:
-		pass
+		row_index = np.arange(N)
+		folds = np.empty((0, 2))
+		i = 0
+
+		def equal_twins(D, row_index):
+			if(D.shape[0] <= math.ceil(N / n)):
+				nonlocal folds, i
+				fold = np.hstack((row_index.reshape(len(row_index), 1), np.repeat(i, len(row_index)).reshape(len(row_index), 1)))
+				folds = np.vstack((folds, fold))
+				i += 1
+			else:
+				equal_twins_i = np.array(twin_cpp(D, 2, np.random.randint(D.shape[0]), 8), dtype='uint64')
+				negate = np.ones(D.shape[0], bool)
+				negate[equal_twins_i] = 0
+				equal_twins(D[negate, :], row_index[negate])
+				equal_twins(D[np.invert(negate), :], row_index[np.invert(negate)])
+				
+
+		equal_twins(D, row_index)
+		return folds[np.argsort(folds[:, 0]), 1].astype('uint64')
+
 
 	if strategy == 3:
 		sequence = np.array(multiplet_S3_cpp(D, n, np.random.randint(D.shape[0]), 8), dtype='uint64')
