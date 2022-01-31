@@ -3,6 +3,7 @@
 #include <pybind11/stl.h>
 #include <nanoflann.hpp>
 #include <vector>
+#include <memory>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -189,6 +190,66 @@ std::vector<std::size_t> multiplet_S3_cpp(py::array_t<double> data, std::size_t 
 }
 
 
+double energy_cpp(py::array_t<double> data, py::array_t<double> points)
+{
+    DF D(data), sp(points);
+    std::size_t dim = D.ncol();
+    std::size_t N = D.nrow();
+    std::size_t n = sp.nrow();
+
+    std::vector<double> ed_1;
+    std::vector<double> ed_2;
+    ed_1.resize(n);
+    ed_2.resize(n);
+
+    #pragma omp parallel for
+    for(std::size_t i = 0; i < n; i++)
+    {
+        const double* u_i = sp.get_row(i);
+
+        double distance_sum = 0.0;
+        double inner_sum = 0.0;
+        for(std::size_t j = 0; j < N; j++)
+        {
+            const double* z_j = D.get_row(j);
+
+            inner_sum = 0.0;
+            for(std::size_t k = 0; k < dim; k++)
+                inner_sum += std::pow(*(u_i + k) - *(z_j + k), 2);
+
+            distance_sum += std::sqrt(inner_sum);
+        }
+
+        ed_1[i] = distance_sum;
+
+        distance_sum = 0.0;
+        for(std::size_t j = 0; j < n; j++)
+            if(j != i)
+            {
+                const double* u_j = sp.get_row(j);
+
+                inner_sum = 0.0;
+                for(std::size_t k = 0; k < dim; k++)
+                    inner_sum += std::pow(*(u_i + k) - *(u_j + k), 2); 
+
+                distance_sum += std::sqrt(inner_sum);
+            }
+
+        ed_2[i] = distance_sum;
+    }
+
+    double sum1 = 0.0;
+    double sum2 = 0.0;
+    for(std::size_t i = 0; i < n; i++)
+    {
+        sum1 += ed_1[i];
+        sum2 += ed_2[i];
+    }
+
+    return 2.0 * sum1 / (N * n) - sum2 / (n * n);
+}
+
+
 PYBIND11_MODULE(twinning_cpp, m){
     m.doc() = R"pbdoc(
         .. currentmodule:: twinning_cpp
@@ -198,6 +259,7 @@ PYBIND11_MODULE(twinning_cpp, m){
 
            twin_cpp
            multiplet_S3_cpp
+           energy_cpp
     )pbdoc";
 
     m.def("twin_cpp", &twin_cpp, R"pbdoc(
@@ -208,6 +270,9 @@ PYBIND11_MODULE(twinning_cpp, m){
         Generate multiplets using strategy S3 (C++ extension).
     )pbdoc");
 
+    m.def("energy_cpp", &energy_cpp, R"pbdoc(
+        Energy distance computation (C++ extension).
+    )pbdoc");
 
 #ifdef VERSION_INFO
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
