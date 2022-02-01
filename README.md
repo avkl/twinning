@@ -86,13 +86,14 @@ ed = energy(data, points)
 ## Documentation
 For an extensive documentation of the above functions and their parameters, refer to the respective function docstring within python, or the pdoc generated documentation [here](https://htmlpreview.github.io/?https://github.com/avkl/twinning/blob/main/html/twinning/twinning.html). For further information on the twinning algorithm, see Vakayil and Joseph (2022).
 
+## References
+Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.
 
+Joseph, V. R., & Vakayil, A. (2021). SPlit: An Optimal Method for Data Splitting. Technometrics, 1-11. doi:10.1080/00401706.2021.1921037.
 
+Mak, S. & Joseph, V. R. (2018). Support Points. Annals of Statistics, 46, 2562-2592.
 
-
-
-
-
+Székely, G. J., & Rizzo, M. L. (2013). Energy statistics: A class of statistics based on distances. Journal of statistical planning and inference, 143(8), 1249-1272.
 
 
 
