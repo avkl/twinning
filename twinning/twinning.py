@@ -3,7 +3,7 @@ import numpy as np
 import math
 
 
-def data_format(data):
+def _data_format(data):
 	const_cols = np.all(data == data[0, :], axis=0)
 	data = data[:, np.invert(const_cols)]
 	data = (data - data.mean(axis=0)) / data.std(axis=0)
@@ -20,20 +20,19 @@ def twin(data, r, u1=None, leaf_size=8):
 
 	``twin()`` implements the data twinning algorithm presented in Vakayil and Joseph (2022). A partition of the dataset is returned, such that the resulting two disjoint sets, termed as *twins*, are distributed similar to each other, as well as the whole dataset. Such a partition is an optimal training-testing split (Joseph and Vakayil, 2021) for training and testing statistical and machine learning models, and is model-independent. The statistical similarity also allows one to treat either of the twins as a compression (lossy) of the dataset for tractable model building on Big Data.
 
-	:param data: the dataset including both the predictors and response(s); should not contain nan or infinity
-	:type data: np.ndarray
+	**Parameters**
 
-	:param r: an integer representing the inverse of the splitting ratio, e.g., for an 80-20 partition, r = 1 / 0.2 = 5
-	:type r: int
+	``data`` ( ndarray ): the dataset including both the predictors and response(s); should not contain nan or infinity
 
-	:param u1: index of the data point from where twinning starts; if not provided, twinning starts from a random point in the dataset; fixing u1 makes twinning deterministic, i.e., the same twins are returned
-	:type u1: int
+	``r`` ( int ): an integer representing the inverse of the splitting ratio, e.g., for an 80-20 partition, ``r`` = 1 / 0.2 = 5
 
-	:param leaf_size: maximum number of elements in the leaf-nodes of the kd-tree
-	:type leaf_size: int
+	``u1`` ( int , optional ): index of the data point from where twinning starts; if not provided, twinning starts from a random point in the dataset; fixing ``u1`` makes twinning deterministic, i.e., the same twins are returned
 
-	:returns: indices of the smaller twin
-	:rtype: np.ndarray
+	``leaf_size`` ( int , optional ): maximum number of elements in the leaf-nodes of the kd-tree
+
+	**Returns**
+
+	( ndarray ): indices of the smaller twin
 
 	**Details**
 
@@ -63,7 +62,7 @@ def twin(data, r, u1=None, leaf_size=8):
 	if r not in range(2, math.floor(data.shape[0] / 2) + 1):
 		raise Exception("r should be an integer such that 2 <= r <= data.shape[0]/2")
 	
-	data = data_format(data)
+	data = _data_format(data)
 	return np.array(twin_cpp(data, r, u1, leaf_size), dtype='uint64')
 
 
@@ -73,20 +72,19 @@ def multiplet(data, k, strategy=1, leaf_size=8):
 
 	``multiplet()`` extends ``twin()`` to partition datasets into multiple statistically similar disjoint sets, termed as *multiplets*, under the three different strategies described in Vakayil and Joseph (2022).
 
-	:param data: the dataset including both the predictors and response(s); should not contain nan or infinity
-	:type data: np.ndarray
+	**Parameters**
 
-	:param k: the desired number of multiplets
-	:type k: int
+	``data`` ( ndarray ): the dataset including both the predictors and response(s); should not contain nan or infinity
 
-	:param strategy: an integer either 1, 2, or 3 referring to the three strategies for generating multiplets; strategy 2 perfroms best, but requires k to be a power of 2; strategy 3 is computatioanlly inexpensive, but performs worse than strategies 1 and 2
-	:type strategy: int
+	``k`` ( int ): the desired number of multiplets
 
-	:param leaf_size: maximum number of elements in the leaf-nodes of the kd-tree
-	:type leaf_size: int
+	``strategy`` ( int , optional ): an integer either 1, 2, or 3 referring to the three strategies for generating multiplets; strategy 2 perfroms best, but requires ``k`` to be a power of 2; strategy 3 is computatioanlly inexpensive, but performs worse than strategies 1 and 2
 
-	:returns: array with the multiplet id, ranging from 1 to k, for each row in data
-	:rtype: np.ndarray
+	``leaf_size`` ( int , optional ): maximum number of elements in the leaf-nodes of the kd-tree
+
+	**Returns**
+
+	( ndarray ): array with the multiplet id, ranging from 1 to ``k``, for each row in data
 
 	**References**
 
@@ -105,7 +103,7 @@ def multiplet(data, k, strategy=1, leaf_size=8):
 	if k not in range(2, math.floor(data.shape[0] / 2) + 1):
 		raise Exception("k should be an integer such that 2 <= r <= data.shape[0]/2")
 
-	data = data_format(data)
+	data = _data_format(data)
 	N = data.shape[0]
 
 	if strategy == 1:
@@ -167,14 +165,15 @@ def energy(data, points):
 
 	``energy()`` computes the energy distance (Székely and Rizzo, 2013) between a given dataset and a set of points in same dimensions.
 
-	:param data: the dataset including both the predictors and response(s); should not contain nan or infinity
-	:type data: np.ndarray
+	**Parameters**
 
-	:param points: the set of points for which the energy distance with respect to data is to be computed; should not contain nan or infinity
-	:type points: np.ndarray
+	``data`` ( ndarray ): the dataset including both the predictors and response(s); should not contain nan or infinity
 
-	:returns: energy distance
-	:rtype: float
+	``points`` ( ndarray ): the set of points for which the energy distance with respect to ``data`` is to be computed; should not contain nan or infinity
+
+	**Returns**
+
+	( float ): energy distance
 
 	**Details**
 
@@ -187,7 +186,7 @@ def energy(data, points):
 	Székely, G. J., & Rizzo, M. L. (2013). Energy statistics: A class of statistics based on distances. Journal of statistical planning and inference, 143(8), 1249-1272.
 
 	Mak, S. & Joseph, V. R. (2018). Support Points. Annals of Statistics, 46, 2562-2592.
-	
+
 	"""
 
 	if type(data) != np.ndarray or len(data.shape) != 2:
