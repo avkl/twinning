@@ -15,6 +15,40 @@ def data_format(data):
 
 
 def twin(data, r, u1=None, leaf_size=8):
+	"""
+	**Descritpion**
+
+	``twin()`` implements the data twinning algorithm presented in Vakayil and Joseph (2022). A partition of the dataset is returned, such that the resulting two disjoint sets, termed as *twins*, are distributed similar to each other, as well as the whole dataset. Such a partition is an optimal training-testing split (Joseph and Vakayil, 2021) for training and testing statistical and machine learning models, and is model-independent. The statistical similarity also allows one to treat either of the twins as a compression (lossy) of the dataset for tractable model building on Big Data.
+
+	:param data: the dataset including both the predictors and response(s); should not contain nan or infinity
+	:type data: np.ndarray
+
+	:param r: an integer representing the inverse of the splitting ratio, e.g., for an 80-20 partition, r = 1 / 0.2 = 5
+	:type r: int
+
+	:param u1: index of the data point from where twinning starts; if not provided, twinning starts from a random point in the dataset; fixing u1 makes twinning deterministic, i.e., the same twins are returned
+	:type u1: int
+
+	:param leaf_size: maximum number of elements in the leaf-nodes of the kd-tree
+	:type leaf_size: int
+
+	:returns: indices of the smaller twin
+	:rtype: np.ndarray
+
+	**Details**
+
+	Before twinning, constant columns are removed from ``data`` and the remaining are scaled to zero mean and unit standard deviation. Twinning algorithm requires nearest neighbor queries that are performed using a *kd*-tree. The *kd*-tree implementation in the nanoflann (Blanco and Rai, 2014) C++ library is used.
+
+	**References**
+
+	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.
+
+	Joseph, V. R., & Vakayil, A. (2021). SPlit: An Optimal Method for Data Splitting. Technometrics, 1-11. doi:10.1080/00401706.2021.1921037.
+
+	Blanco, J. L. & Rai, P. K. (2014). nanoflann: a C++ header-only fork of FLANN, a library for nearest neighbor (NN) with kd-trees. https://github.com/jlblancoc/nanoflann.
+
+	"""
+
 	if type(data) != np.ndarray or len(data.shape) != 2:
 		raise Exception("data is expected to be a 2 dimensional numpy ndarray")
 
@@ -34,6 +68,34 @@ def twin(data, r, u1=None, leaf_size=8):
 
 
 def multiplet(data, k, strategy=1, leaf_size=8):
+	"""
+	**Descritpion**
+
+	``multiplet()`` extends ``twin()`` to partition datasets into multiple statistically similar disjoint sets, termed as *multiplets*, under the three different strategies described in Vakayil and Joseph (2022).
+
+	:param data: the dataset including both the predictors and response(s); should not contain nan or infinity
+	:type data: np.ndarray
+
+	:param k: the desired number of multiplets
+	:type k: int
+
+	:param strategy: an integer either 1, 2, or 3 referring to the three strategies for generating multiplets; strategy 2 perfroms best, but requires k to be a power of 2; strategy 3 is computatioanlly inexpensive, but performs worse than strategies 1 and 2
+	:type strategy: int
+
+	:param leaf_size: maximum number of elements in the leaf-nodes of the kd-tree
+	:type leaf_size: int
+
+	:returns: array with the multiplet id, ranging from 1 to k, for each row in data
+	:rtype: np.ndarray
+
+	**References**
+
+	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.
+
+	Blanco, J. L. & Rai, P. K. (2014). nanoflann: a C++ header-only fork of FLANN, a library for nearest neighbor (NN) with kd-trees. https://github.com/jlblancoc/nanoflann.
+
+	"""
+
 	if type(data) != np.ndarray or len(data.shape) != 2:
 		raise Exception("data is expected to be a 2 dimensional numpy ndarray")
 
@@ -100,6 +162,34 @@ def multiplet(data, k, strategy=1, leaf_size=8):
 
 
 def energy(data, points):
+	"""
+	**Descritpion**
+
+	``energy()`` computes the energy distance (Székely and Rizzo, 2013) between a given dataset and a set of points in same dimensions.
+
+	:param data: the dataset including both the predictors and response(s); should not contain nan or infinity
+	:type data: np.ndarray
+
+	:param points: the set of points for which the energy distance with respect to data is to be computed; should not contain nan or infinity
+	:type points: np.ndarray
+
+	:returns: energy distance
+	:rtype: float
+
+	**Details**
+
+	Smaller the energy distance, the more statistically similar the set of points is to the given dataset. The minimizer of energy distance is known as support points (Mak and Joseph, 2018), which is the basis for the twinning method. Computing energy distance between ``data`` and ``points`` involves Euclidean distance calculations among the rows of ``data``, among the rows of ``points``, and between the rows of ``data`` and ``points``. Since, ``data`` serves as the reference, the distance calculations among the rows of ``data`` are ignored for efficiency. Before computing the energy distance, the columns of ``data`` are scaled to zero mean and unit standard deviation. The mean and standard deviation of the columns of ``data`` are used to scale the respective columns in ``points``.
+
+	**References**
+
+	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.
+
+	Székely, G. J., & Rizzo, M. L. (2013). Energy statistics: A class of statistics based on distances. Journal of statistical planning and inference, 143(8), 1249-1272.
+
+	Mak, S. & Joseph, V. R. (2018). Support Points. Annals of Statistics, 46, 2562-2592.
+	
+	"""
+
 	if type(data) != np.ndarray or len(data.shape) != 2:
 		raise Exception("data is expected to be a 2 dimensional numpy ndarray")
 

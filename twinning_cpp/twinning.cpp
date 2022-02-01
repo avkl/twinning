@@ -4,6 +4,7 @@
 #include <nanoflann.hpp>
 #include <vector>
 #include <memory>
+#include <cmath>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -267,7 +268,7 @@ PYBIND11_MODULE(twinning_cpp, m){
     )pbdoc");
 
     m.def("multiplet_S3_cpp", &multiplet_S3_cpp, R"pbdoc(
-        Generate multiplets using strategy S3 (C++ extension).
+        Generate multiplets using strategy 3 (C++ extension).
     )pbdoc");
 
     m.def("energy_cpp", &energy_cpp, R"pbdoc(
