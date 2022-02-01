@@ -1,5 +1,5 @@
 # Data Twinning
-A ``Python3`` module for data twinning. For ``R``, the package is available from <a href="https://cran.r-project.org/web/packages/twinning/index.html" target="_blank">CRAN</a>.
+A ``Python3`` module for data twinning. For ``R``, the package is available from [CRAN](https://cran.r-project.org/web/packages/twinning/index.html).
 
 ## About
 An efficient implementation of the twinning algorithm proposed in Vakayil and Joseph (2022) for partitioning a dataset into statistically similar twin sets. The algorithm is orders of magnitude faster than the ``SPlit`` algorithm proposed in Joseph and Vakayil (2021) for optimally splitting a dataset into training and testing sets, and the ``support points`` algorithm of Mak and Joseph (2018) for subsampling from Big Data.
@@ -83,8 +83,8 @@ points = data[np.random.choice(100, 20, replace=False), :]
 ed = energy(data, points)
 ```
 
-## Documentaion
-For an extensive documentation of the above functions and their parameters, refer to the respective function docstring within python, or the pdoc generated documentation <a href="https://htmlpreview.github.io/?https://github.com/avkl/twinning/blob/main/html/twinning/twinning.html" target="_blank">here</a>. For further information on the twinning algorithm, see Vakayil and Joseph (2022).
+## Documentation
+For an extensive documentation of the above functions and their parameters, refer to the respective function docstring within python, or the pdoc generated documentation [here](https://htmlpreview.github.io/?https://github.com/avkl/twinning/blob/main/html/twinning/twinning.html). For further information on the twinning algorithm, see Vakayil and Joseph (2022).
 
 
 

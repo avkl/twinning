@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite it as below."
+authors:
+- family-names: "Vakayil"
+  given-names: "Akhil"
+- family-names: "Joseph"
+  given-names: "Roshan"
+title: "Data Twinning"
+version: 1.0
+doi: 
+date-released: 2022-02-02
+url: "https://github.com/avkl/twinning"
