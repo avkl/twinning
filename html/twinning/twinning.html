@@ -60,7 +60,7 @@
 <p><code>strategy</code> ( int , optional ): an integer either 1, 2, or 3 referring to the three strategies for generating multiplets; strategy 2 perfroms best, but requires <code>k</code> to be a power of 2; strategy 3 is computatioanlly inexpensive, but performs worse than strategies 1 and 2</p>
 <p><code>leaf_size</code> ( int , optional ): maximum number of elements in the leaf-nodes of the kd-tree</p>
 <p><strong>Returns</strong></p>
-<p>( ndarray ): array with the multiplet id, ranging from 1 to <code>k</code>, for each row in data</p>
+<p>( ndarray ): array with the multiplet id, ranging from 0 to <code>k</code> - 1, for each row in data</p>
 <p><strong>References</strong></p>
 <p>Vakayil, A., &amp; Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.</p>
 <p>Blanco, J. L. &amp; Rai, P. K. (2014). nanoflann: a C++ header-only fork of FLANN, a library for nearest neighbor (NN) with kd-trees. <a href="https://github.com/jlblancoc/nanoflann.">https://github.com/jlblancoc/nanoflann.</a></p></div>

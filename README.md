@@ -21,9 +21,7 @@ This work is supported by U.S. National Science Foundation grants **DMREF-192187
 
 ## How to use
 ### ``twin()``
-``twin()`` accepts a numpy ndarray as the dataset, and an integer parameter ``r`` representing the inverse of the partitioning ratio, i.e., for an 80-20 split, ``r`` = 1 / 0.2 = 5. The function returns indices of the smaller twin.
-
-The following code generates an 80-20 partition of a dataset with two columns. The encircled points in the figure depict the smaller twin.
+``twin()`` accepts a numpy ndarray as the dataset, and an integer parameter ``r`` representing the inverse of the partitioning ratio, i.e., for an 80-20 split, ``r`` = 1 / 0.2 = 5. The function returns indices of the smaller twin. The following code generates an 80-20 partition of a dataset with two columns. The encircled points in the figure depict the smaller twin.
 
 
 ```python
@@ -54,4 +52,48 @@ encoder = ce.HelmertEncoder(cols=["species"], drop_invariant=True)
 iris = encoder.fit_transform(iris)
 twin_idx = twin(iris.to_numpy(), r=5)
 ``` 
+
+### ``multiplet()``
+``multiplet()`` extends ``twin()`` to partition datasets into multiple statistically similar disjoint sets. It requires a parameter ``k`` indicating the desired number of multiplets, e.g., for quadruplets, ``k`` = 4. The function returns an array with the multiplet id, ranging from 0 to ``k`` - 1, of all rows in the dataset. The following code generates 10 multiplets of the synthetic dataset we created above.
+
+```python
+import numpy as np
+from twinning import multiplet
+
+x = np.random.normal(loc=0, scale=1, size=100)
+y = np.random.normal(loc=np.power(x, 2), scale=1, size=100)
+data = np.hstack((x.reshape(100, 1), y.reshape(100, 1)))
+multiplet_idx = multiplet(data, k=10)
+
+multiplet_0 = data[np.where(multiplet_idx == 0), :]
+multiplet_9 = data[np.where(multiplet_idx == 9), :]
+```
+
+### ``energy()``
+``energy()`` computes the energy distance (Székely and Rizzo, 2013) between a given dataset and a set of points in same dimensions. Energy distance is the metric minimized by twinning. The following code computes the energy distance between the synthetic dataset and a randomly drawn sample from it. The smaller the energy distance, the more statistically similar is the sample to the dataset. 
+
+```python
+import numpy as np
+from twinning import energy
+
+x = np.random.normal(loc=0, scale=1, size=100)
+y = np.random.normal(loc=np.power(x, 2), scale=1, size=100)
+data = np.hstack((x.reshape(100, 1), y.reshape(100, 1)))
+points = data[np.random.choice(100, 20, replace=False), :]
+ed = energy(data, points)
+```
+
+## Documentaion
+For an extensive documentation of the above functions and their parameters, refer to the respective function docstring within python, or the pdoc generated documentation <a href="https://htmlpreview.github.io/?https://github.com/avkl/twinning/blob/main/html/twinning/twinning.html" target="_blank">here</a>. For further information on the twinning algorithm, see Vakayil and Joseph (2022).
+
+
+
+
+
+
+
+
+
+
+
  

@@ -84,7 +84,7 @@ def multiplet(data, k, strategy=1, leaf_size=8):
 
 	**Returns**
 
-	( ndarray ): array with the multiplet id, ranging from 1 to ``k``, for each row in data
+	( ndarray ): array with the multiplet id, ranging from 0 to ``k`` - 1, for each row in data
 
 	**References**
 
