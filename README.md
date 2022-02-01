@@ -21,7 +21,7 @@ This work is supported by U.S. National Science Foundation grants **DMREF-192187
 
 ## How to use
 ### ``twin()``
-``twin()`` accepts a numpy ndarray as the dataset, and an integer parameter ``r`` representing the inverse of the partitioning ratio, i.e., for an 80-20 split, ``r`` = 1 / 0.2 = 5. The function returns the indices of the smaller twin.
+``twin()`` accepts a numpy ndarray as the dataset, and an integer parameter ``r`` representing the inverse of the partitioning ratio, i.e., for an 80-20 split, ``r`` = 1 / 0.2 = 5. The function returns indices of the smaller twin.
 
 The following code generates an 80-20 partition of a dataset with two columns. The encircled points in the figure depict the smaller twin.
 
@@ -29,6 +29,7 @@ The following code generates an 80-20 partition of a dataset with two columns. T
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
+from twinning import twin
 
 x = np.random.normal(loc=0, scale=1, size=100)
 y = np.random.normal(loc=np.power(x, 2), scale=1, size=100)
@@ -39,3 +40,18 @@ plt.scatter(x, y, alpha=0.5)
 plt.scatter(x[twin_idx], y[twin_idx], s=125, facecolors="none", edgecolors="black")
 ```
 ![twinning](https://raw.githubusercontent.com/avkl/twinning/main/html/twinning.png)
+
+Twinning algorithm requires a numerical dataset, hence, if a dataset has categorical columns, they should be converted to numerical using an appropriate coding method. The following code generates an 80-20 partition of the popular ``iris`` dataset. The categorical response (species) is converted to numerical using Helmert coding.
+
+```python
+import numpy as np
+import pandas as pd
+import category_encoders as ce
+from twinning import twin
+
+iris = pd.read_csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv")
+encoder = ce.HelmertEncoder(cols=["species"], drop_invariant=True)
+iris = encoder.fit_transform(iris)
+twin_idx = twin(iris.to_numpy(), r=5)
+``` 
+ 
