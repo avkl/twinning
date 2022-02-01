@@ -38,4 +38,4 @@ twin_idx = twin(data, r=5)
 plt.scatter(x, y, alpha=0.5)
 plt.scatter(x[twin_idx], y[twin_idx], s=125, facecolors="none", edgecolors="black")
 ```
-![twinning](https://raw.githubusercontent.com/avkl/main/html/twinning.png)
+![twinning](https://raw.githubusercontent.com/avkl/twinning/main/html/twinning.png)
