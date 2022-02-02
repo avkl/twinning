@@ -87,8 +87,8 @@ public:
         KDTree tree(dim, *data_, nanoflann::KDTreeSingleIndexAdaptorParams(leaf_size_));
         
         nanoflann::KNNResultSet<double> resultSet(r_);
-        std::size_t index[r_];
-        double distance[r_];
+        std::size_t *index = new std::size_t[r_];
+        double *distance = new double[r_];
 
         nanoflann::KNNResultSet<double> resultSet_next_u(1);
         std::size_t index_next_u;
@@ -118,6 +118,9 @@ public:
             }
         }
 
+        delete[] index;
+        delete[] distance;
+
         return indices;
     }
 
@@ -129,8 +132,8 @@ public:
         KDTree tree(dim, *data_, nanoflann::KDTreeSingleIndexAdaptorParams(leaf_size_));
         
         nanoflann::KNNResultSet<double> resultSet(r_);
-        std::size_t index[r_];
-        double distance[r_];
+        std::size_t* index = new std::size_t[r_];
+        double* distance = new double[r_];
 
         nanoflann::KNNResultSet<double> resultSet_next_u(1);
         std::size_t index_next_u;
@@ -146,14 +149,17 @@ public:
             {
                 std::size_t r_f = N - sequence.size();
                 nanoflann::KNNResultSet<double> resultSet_f(r_f);
-                std::size_t index_f[r_f];
-                double distance_f[r_f];
+                std::size_t* index_f = new std::size_t[r_f];
+                double* distance_f = new double[r_f]; 
 
                 resultSet_f.init(index_f, distance_f);
                 tree.findNeighbors(resultSet_f, data_->get_row(position), nanoflann::SearchParams());
 
                 for(std::size_t i = 0; i < r_f; i++)
                     sequence.push_back(index_f[i]);
+
+                delete[] index_f;
+                delete[] distance_f;
 
                 break;
             }
@@ -171,6 +177,9 @@ public:
             tree.findNeighbors(resultSet_next_u, data_->get_row(index[r_ - 1]), nanoflann::SearchParams());  
             position = index_next_u;
         }
+
+        delete[] index;
+        delete[] distance;
 
         return sequence;
     }
