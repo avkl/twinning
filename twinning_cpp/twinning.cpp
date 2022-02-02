@@ -213,7 +213,7 @@ double energy_cpp(py::array_t<double> data, py::array_t<double> points)
     ed_2.resize(n);
 
     #pragma omp parallel for
-    for(std::size_t i = 0; i < n; i++)
+    for(int i = 0; i < static_cast<int>(n); i++)
     {
         const double* u_i = sp.get_row(i);
 
@@ -233,7 +233,7 @@ double energy_cpp(py::array_t<double> data, py::array_t<double> points)
         ed_1[i] = distance_sum;
 
         distance_sum = 0.0;
-        for(std::size_t j = 0; j < n; j++)
+        for(int j = 0; j < static_cast<int>(n); j++)
             if(j != i)
             {
                 const double* u_j = sp.get_row(j);

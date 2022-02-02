@@ -11,9 +11,7 @@ pybind11_add_module(twinning_cpp twinning.cpp)
 # define (VERSION_INFO) here.
 target_compile_definitions(twinning_cpp PRIVATE VERSION_INFO=${EXAMPLE_VERSION_INFO})
 
-if(NOT MSVC)
 find_package(OpenMP)
 if(OpenMP_CXX_FOUND)
     target_link_libraries(twinning_cpp PUBLIC OpenMP::OpenMP_CXX)
-endif()
 endif()
