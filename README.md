@@ -70,7 +70,7 @@ multiplet_9 = data[np.where(multiplet_idx == 9), :]
 ```
 
 ### ``energy()``
-``energy()`` computes the energy distance (Székely and Rizzo, 2013) between a given dataset and a set of points in same dimensions. Energy distance is the metric minimized by twinning. The following code computes the energy distance between the synthetic dataset and a randomly drawn sample from it. The smaller the energy distance, the more statistically similar is the sample to the dataset. 
+``energy()`` computes the energy distance (Székely and Rizzo, 2013) between a given dataset and a set of points in same dimensions. Energy distance is the metric minimized by twinning. The following code computes the energy distance between the synthetic dataset and a randomly drawn sample from it. Smaller the energy distance, the more statistically similar the sample is to the dataset. 
 
 ```python
 import numpy as np
