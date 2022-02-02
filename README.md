@@ -15,9 +15,11 @@ The module provides functions ``twin()``, ``multiplet()``, and ``energy()``.
 This work is supported by U.S. National Science Foundation grants **DMREF-1921873** and **CMMI-1921646**.
 
 ## Installation
-  ```shell
-  > pip3 install git+https://github.com/avkl/twinning.git
-  ```
+A ``conda`` environment is recommended. The module also installs ``twinning-cpp``, a ``C++`` extension that requires compiling. If the compiler is not already installed, they can be installed via [conda](https://anaconda.org/conda-forge/cxx-compiler/). On ``Windows``, ``Visual Studio`` with ``C++`` may be required, which can be installed from [here](https://visualstudio.microsoft.com/vs/features/cplusplus/). 
+
+```shell
+> pip3 install git+https://github.com/avkl/twinning.git
+```
 
 ## How to use
 ### ``twin()``
