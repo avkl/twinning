@@ -26,7 +26,7 @@ def twin(data, r, u1=None, leaf_size=8):
 
 	``r`` ( int ): an integer representing the inverse of the splitting ratio, e.g., for an 80-20 partition, ``r`` = 1 / 0.2 = 5
 
-	``u1`` ( int , optional ): index of the data point from where twinning starts; if not provided, twinning starts from a random point in the dataset; fixing ``u1`` makes twinning deterministic, i.e., the same twins are returned
+	``u1`` ( int , optional ): index of the data point from where twinning starts; if not provided, a random point is chosen from the dataset; fixing ``u1`` makes the algorithm deterministic, i.e., the same twins are returned
 
 	``leaf_size`` ( int , optional ): maximum number of elements in the leaf-nodes of the kd-tree
 
@@ -40,7 +40,7 @@ def twin(data, r, u1=None, leaf_size=8):
 
 	**References**
 
-	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.
+	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal. https://doi.org/10.1002/sam.11574
 
 	Joseph, V. R., & Vakayil, A. (2021). SPlit: An Optimal Method for Data Splitting. Technometrics, 1-11. doi:10.1080/00401706.2021.1921037.
 
@@ -88,7 +88,7 @@ def multiplet(data, k, strategy=1, leaf_size=8):
 
 	**References**
 
-	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.
+	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal. https://doi.org/10.1002/sam.11574
 
 	Blanco, J. L. & Rai, P. K. (2014). nanoflann: a C++ header-only fork of FLANN, a library for nearest neighbor (NN) with kd-trees. https://github.com/jlblancoc/nanoflann.
 
@@ -181,7 +181,7 @@ def energy(data, points):
 
 	**References**
 
-	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.
+	Vakayil, A., & Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal. https://doi.org/10.1002/sam.11574
 
 	Székely, G. J., & Rizzo, M. L. (2013). Energy statistics: A class of statistics based on distances. Journal of statistical planning and inference, 143(8), 1249-1272.
 

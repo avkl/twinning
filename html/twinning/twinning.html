@@ -44,7 +44,7 @@
 <p><strong>Details</strong></p>
 <p>Smaller the energy distance, the more statistically similar the set of points is to the given dataset. The minimizer of energy distance is known as support points (Mak and Joseph, 2018), which is the basis for the twinning method. Computing energy distance between <code>data</code> and <code>points</code> involves Euclidean distance calculations among the rows of <code>data</code>, among the rows of <code>points</code>, and between the rows of <code>data</code> and <code>points</code>. Since, <code>data</code> serves as the reference, the distance calculations among the rows of <code>data</code> are ignored for efficiency. Before computing the energy distance, the columns of <code>data</code> are scaled to zero mean and unit standard deviation. The mean and standard deviation of the columns of <code>data</code> are used to scale the respective columns in <code>points</code>.</p>
 <p><strong>References</strong></p>
-<p>Vakayil, A., &amp; Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.</p>
+<p>Vakayil, A., &amp; Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal. <a href="https://doi.org/10.1002/sam.11574">https://doi.org/10.1002/sam.11574</a></p>
 <p>Székely, G. J., &amp; Rizzo, M. L. (2013). Energy statistics: A class of statistics based on distances. Journal of statistical planning and inference, 143(8), 1249-1272.</p>
 <p>Mak, S. &amp; Joseph, V. R. (2018). Support Points. Annals of Statistics, 46, 2562-2592.</p></div>
 </dd>
@@ -62,7 +62,7 @@
 <p><strong>Returns</strong></p>
 <p>( ndarray ): array with the multiplet id, ranging from 0 to <code>k</code> - 1, for each row in data</p>
 <p><strong>References</strong></p>
-<p>Vakayil, A., &amp; Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.</p>
+<p>Vakayil, A., &amp; Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal. <a href="https://doi.org/10.1002/sam.11574">https://doi.org/10.1002/sam.11574</a></p>
 <p>Blanco, J. L. &amp; Rai, P. K. (2014). nanoflann: a C++ header-only fork of FLANN, a library for nearest neighbor (NN) with kd-trees. <a href="https://github.com/jlblancoc/nanoflann.">https://github.com/jlblancoc/nanoflann.</a></p></div>
 </dd>
 <dt id="twinning.twinning.twin"><code class="name flex">
@@ -74,14 +74,14 @@
 <p><strong>Parameters</strong></p>
 <p><code>data</code> ( ndarray ): the dataset including both the predictors and response(s); should not contain nan or infinity</p>
 <p><code>r</code> ( int ): an integer representing the inverse of the splitting ratio, e.g., for an 80-20 partition, <code>r</code> = 1 / 0.2 = 5</p>
-<p><code>u1</code> ( int , optional ): index of the data point from where twinning starts; if not provided, twinning starts from a random point in the dataset; fixing <code>u1</code> makes twinning deterministic, i.e., the same twins are returned</p>
+<p><code>u1</code> ( int , optional ): index of the data point from where twinning starts; if not provided, a random point is chosen from the dataset; fixing <code>u1</code> makes the algorithm deterministic, i.e., the same twins are returned</p>
 <p><code>leaf_size</code> ( int , optional ): maximum number of elements in the leaf-nodes of the kd-tree</p>
 <p><strong>Returns</strong></p>
 <p>( ndarray ): indices of the smaller twin</p>
 <p><strong>Details</strong></p>
 <p>Before twinning, constant columns are removed from <code>data</code> and the remaining are scaled to zero mean and unit standard deviation. Twinning algorithm requires nearest neighbor queries that are performed using a <em>kd</em>-tree. The <em>kd</em>-tree implementation in the nanoflann (Blanco and Rai, 2014) C++ library is used.</p>
 <p><strong>References</strong></p>
-<p>Vakayil, A., &amp; Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal, to appear. arXiv preprint arXiv:2110.02927.</p>
+<p>Vakayil, A., &amp; Joseph, V. R. (2022). Data Twinning. Statistical Analysis and Data Mining: The ASA Data Science Journal. <a href="https://doi.org/10.1002/sam.11574">https://doi.org/10.1002/sam.11574</a></p>
 <p>Joseph, V. R., &amp; Vakayil, A. (2021). SPlit: An Optimal Method for Data Splitting. Technometrics, 1-11. doi:10.1080/00401706.2021.1921037.</p>
 <p>Blanco, J. L. &amp; Rai, P. K. (2014). nanoflann: a C++ header-only fork of FLANN, a library for nearest neighbor (NN) with kd-trees. <a href="https://github.com/jlblancoc/nanoflann.">https://github.com/jlblancoc/nanoflann.</a></p></div>
 </dd>
