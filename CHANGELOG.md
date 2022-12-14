@@ -1,4 +1,21 @@
-nanoflann UNRELEASED
+nanoflann 1.4.3: Released Jul 24, 2022
+ * Added flag SkipInitialBuildIndex to allow not wasting time building a tree when it will be loaded from a file later on ([PR #171](https://github.com/jlblancoc/nanoflann/pull/171)).
+ * Mark all constructors explicit, to avoid unintended creation of temporary objects ([Issue #179](https://github.com/jlblancoc/nanoflann/issues/179)).
+ * BUGFIX: avoid potential index out of bounds in KDTreeSingleIndexDynamicAdaptor ([PR #173](https://github.com/jlblancoc/nanoflann/pull/173))
+
+nanoflann 1.4.2: Released Jan 11, 2022
+ * Install pkg-config .pc file under lib directory (Closes [#161](https://github.com/jlblancoc/nanoflann/issues/161)).
+ * Integrate AppVeyor CI.
+
+nanoflann 1.4.1: Released Jan 6, 2022
+  * Fix incorrect install directory for cmake target & config files.
+  * Do not install example binaries with `make install`.
+  * Provide working examples for cmake and pkgconfig under `examples/example_*` directories.
+
+nanoflann 1.4.0: Released Jan 2, 2022
+  * nanoflann::KDTreeSingleIndexAdaptor() ctor now forwards additional parameters to the metric class, enabling custom dynamic metrics.
+  * Add and apply a `.clang-format` file (same one than used in MOLAorg/MOLA projects).
+  * Examples: clean up and code modernization.
   * CMake variables prefixed now with `NANOFLANN_` for easier integration of nanoflann as a Git submodule.
   * Fixes for IndexType which are not of integral types [PR #154](https://github.com/jlblancoc/nanoflann/pull/154)
   * save/load API upgraded from C `FILE*` to C++ file streams (By Dominic Kempf, Heidelberg University, [PR](https://github.com/jlblancoc/nanoflann/pull/157)).

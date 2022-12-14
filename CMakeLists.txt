@@ -44,12 +44,21 @@ endif()
 add_definitions ( -DNANOFLANN_PATH="${CMAKE_SOURCE_DIR}" )
 
 include(GNUInstallDirs)
+if ($ENV{VERBOSE})
+	message(STATUS "CMAKE_INSTALL_INCLUDEDIR: ${CMAKE_INSTALL_INCLUDEDIR}")
+	message(STATUS "CMAKE_INSTALL_DATADIR   : ${CMAKE_INSTALL_DATADIR}")
+	message(STATUS "CMAKE_INSTALL_LIBDIR    : ${CMAKE_INSTALL_LIBDIR}")
+	message(STATUS "CMAKE_INSTALL_DOCDIR    : ${CMAKE_INSTALL_DOCDIR}")
+	message(STATUS "CMAKE_INSTALL_PREFIX    : ${CMAKE_INSTALL_PREFIX}")
+endif()
+
 # Set relative install directories
 set(INSTALL_INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
-set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_DATADIR}/pkgconfig")
-set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_DATADIR}/cmake/${PROJECT_NAME}")
+set(INSTALL_CMAKE_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake/")
 set(INSTALL_COPYRIGHT_DIR "${CMAKE_INSTALL_DOCDIR}")
-
+if(NOT DEFINED PKGCONFIG_INSTALL_DIR)
+  set(PKGCONFIG_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
+endif()
 
 # Define nanoflann lib (header-only)
 add_library(nanoflann INTERFACE)
@@ -98,27 +107,13 @@ endif()
 # Install/uninstall targets
 # --------------------------------------------------------------------
 
-#--------------------------------------------------------------
-# If we are building the final step of the Debian package,
-#  save each library files in the corresponding directories:
-#--------------------------------------------------------------
-if(CMAKE_USE_DEB_POSTFIXS)
-	# Values when building a Debian package ---------------
-	message(STATUS "** Using Debian post-fix for install directories **")
-	set(libnanoflann_dev_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/libnanoflann-dev/usr/")
-	set(nanoflann_pkgconfig_INSTALL_PREFIX "/usr")	# Values when building a Debian package
-else()
-	# Values under normal conditions -----------------------
-	set(libnanoflann_dev_INSTALL_PREFIX "")
-	set(nanoflann_pkgconfig_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}") 	# Values under normal conditions
-endif()
+# Variable for pkgconfig file:
+set(nanoflann_pkgconfig_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
 # Generate the pkg-config file:
 configure_file(
 	"${nanoflann_SOURCE_DIR}/scripts/nanoflann.pc.in"
 	"${nanoflann_BINARY_DIR}/nanoflann.pc" @ONLY IMMEDIATE )
-
-
 
 # Generate the cmake config and cmake config-version file:
 include(CMakePackageConfigHelpers)
@@ -166,23 +161,17 @@ export(PACKAGE nanoflann)
 
 install(EXPORT nanoflannTargets
         NAMESPACE nanoflann::
-        DESTINATION "${libnanoflann_dev_INSTALL_PREFIX}${INSTALL_CMAKE_DIR}")
+        DESTINATION "${INSTALL_CMAKE_DIR}")
 
 install(
 	FILES "${nanoflann_BINARY_DIR}/nanoflann.pc"
-	DESTINATION "${libnanoflann_dev_INSTALL_PREFIX}${INSTALL_PKGCONFIG_DIR}" )
+	DESTINATION "${PKGCONFIG_INSTALL_DIR}" )
 
 install(
     FILES "${nanoflann_BINARY_DIR}/nanoflannConfig.cmake"
           "${nanoflann_BINARY_DIR}/nanoflannConfigVersion.cmake"
-    DESTINATION "${libnanoflann_dev_INSTALL_PREFIX}${INSTALL_CMAKE_DIR}" )
+    DESTINATION "${INSTALL_CMAKE_DIR}" )
 
 install(
 	FILES "${nanoflann_SOURCE_DIR}/include/nanoflann.hpp"
-	DESTINATION "${libnanoflann_dev_INSTALL_PREFIX}${INSTALL_INCLUDE_DIR}" )
-
-if(CMAKE_USE_DEB_POSTFIXS)
-	install(
-		FILES "${nanoflann_SOURCE_DIR}/copyright"
-		DESTINATION "${libnanoflann_dev_INSTALL_PREFIX}${INSTALL_COPYRIGHT_DIR}" )
-endif()
+	DESTINATION "${INSTALL_INCLUDE_DIR}" )
