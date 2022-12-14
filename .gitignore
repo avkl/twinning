@@ -2,6 +2,7 @@
 .idea/
 __pycache__/
 *.egg-info/
+build/
 twinning/__pycache__/
 twinning_cpp/build/
 twinning_cpp/*.egg-info/
