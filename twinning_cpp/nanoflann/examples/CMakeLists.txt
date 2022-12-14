@@ -5,14 +5,13 @@ MACRO(DEFINE_EXAMPLE _NAME)
 	ADD_EXECUTABLE(${_NAME} ${_NAME}.cpp)
 	set_target_properties(${_NAME} PROPERTIES FOLDER "Examples")
 	TARGET_LINK_LIBRARIES(${_NAME} nanoflann::nanoflann)  # adds the "#include" directory.
-  install(TARGETS ${_NAME}
-          DESTINATION examples)
 ENDMACRO()
 
 DEFINE_EXAMPLE(dynamic_pointcloud_example)
 DEFINE_EXAMPLE(pointcloud_example)
 DEFINE_EXAMPLE(pointcloud_kdd_radius)
 DEFINE_EXAMPLE(pointcloud_adaptor_example)
+DEFINE_EXAMPLE(pointcloud_custom_metric)
 DEFINE_EXAMPLE(SO3_adaptor_example)
 DEFINE_EXAMPLE(SO2_adaptor_example)
 DEFINE_EXAMPLE(saveload_example)

@@ -1,7 +1,7 @@
 /***********************************************************************
  * Software License Agreement (BSD License)
  *
- * Copyright 2011-2016 Jose Luis Blanco (joseluisblancoc@gmail.com).
+ * Copyright 2011-2022 Jose Luis Blanco (joseluisblancoc@gmail.com).
  *   All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,6 @@ void kdtree_demo(const size_t nSamples, const size_t dim)
 	typedef KDTreeVectorOfVectorsAdaptor< my_vector_of_vectors_t, double >  my_kd_tree_t;
 
 	my_kd_tree_t   mat_index(dim /*dim*/, samples, 10 /* max leaf */ );
-	mat_index.index->buildIndex();
 
 	// do a knn search
 	const size_t num_results = 3;
