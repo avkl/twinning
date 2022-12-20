@@ -155,7 +155,7 @@ def multiplet(data, k, strategy=1, leaf_size=8):
 
 	if strategy == 3:
 		sequence = np.array(multiplet_S3_cpp(data, k, np.random.randint(data.shape[0]), leaf_size), dtype='uint64')
-		folds = np.hstack((sequence.reshape(len(sequence), 1), np.tile(np.arange(k), np.ceil(N / k).astype('uint64'))[0:N].reshape(N, 1)))
+		folds = np.hstack((sequence.reshape(len(sequence), 1), np.tile(np.arange(k), math.ceil(N / k))[0:N].reshape(N, 1)))
 		return folds[np.argsort(folds[:, 0]), 1].astype('uint64')
 
 
